@@ -9,10 +9,11 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>conductor-cleanroom</module>
-        <module>conductor-ui-docker</module>
+        <module>conductor-base-docker</module>
         <module>conductor-server-docker</module>
+        <module>conductor-ui-docker</module>
         <module>conductor-liquibase-docker</module>
+        <module>conductor-cleanroom</module>
     </modules>
 
     <properties>
