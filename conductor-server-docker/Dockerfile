@@ -21,7 +21,7 @@ RUN mkdir -p /app/config /app/logs /app/libs
 
 # Copy the project directly onto the image
 COPY --from=conductor-base-image /conductor/docker/server/bin /app
-COPY --from=conductor-base-image /conductor/docker/server/config /app/config
+COPY src/config /app/config
 COPY --from=conductor-base-image /conductor/server/build/libs/conductor-server-*-all.jar /app/libs
 
 # Copy the files for the server into the app folders

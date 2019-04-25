@@ -2,14 +2,78 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>conductor-cleanroom</artifactId>
+    <packaging>pom</packaging>
     <parent>
         <artifactId>conductor-experiment</artifactId>
         <groupId>com.imanage.atlas</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>conductor-cleanroom</artifactId>
+    <properties>
+        <docker-compose-services>docker-compose-services.yml</docker-compose-services>
+    </properties>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>Destroy Cleanroom</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>${project.basedir}/src/test/cr/destroy-cleanroom.sh</executable>
+                            <workingDirectory>${project.basedir}/src/test/cr</workingDirectory>
+                        </configuration>
+                    </execution>
 
+                    <execution>
+                        <id>Prep Clean Room Infrastructure</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${skipITs}</skip>
+                            <executable>docker-compose</executable>
+                            <workingDirectory>src/test/cr</workingDirectory>
+                            <commandlineArgs>-f docker-compose-infrastructure.yml up -d</commandlineArgs>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>Prep Clean Room DB</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${skipITs}</skip>
+                            <executable>docker-compose</executable>
+                            <workingDirectory>src/test/cr</workingDirectory>
+                            <commandlineArgs>-f docker-compose-db.yml up -d</commandlineArgs>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>Prep Clean Room start conductor server</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${skipITs}</skip>
+                            <executable>docker-compose</executable>
+                            <workingDirectory>${project.basedir}/src/test/cr</workingDirectory>
+                            <commandlineArgs>-f ${docker-compose-services} up</commandlineArgs>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

@@ -1,0 +1,12 @@
+version: "2.1"
+services:
+  conductor-schema:
+    extends:
+      file: "common.yml"
+      service: "common"
+    image: "conductor-liquibase"
+    mem_limit: "512m"
+    environment:
+      SCHEMA_NAME: "conductor"
+      MARIADB_CLUSTER: "work-mariadb.service.imanagecloud.com"
+    restart: on-failure:12
