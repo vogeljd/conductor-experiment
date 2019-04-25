@@ -1,0 +1,59 @@
+version: "2.1"
+services:
+  mariadb-bootstrap:
+    extends:
+      file: "common.yml"
+      service: "common"
+    image: "registry.imanage.com/adrian/m-mariadb:NT-88546-1"
+    mem_limit: "2G"
+    environment:
+      ROLE: "BOOTSTRAP"
+      PORT0: 3306
+      CLUSTER_NAME: "conductor-cluster"
+      CLUSTER: "work-mariadb.service.imanagecloud.com:4567"
+      PORT1: "4567"
+      DEBUG: "1"
+      SERVICE_3306_TAGS: "1"
+      SERVICE_3306_NAME: "work-mariadb"
+    restart: on-failure:12
+
+  mariadb-node:
+    extends:
+      file: "common.yml"
+      service: "common"
+    image: "registry.imanage.com/adrian/m-mariadb:NT-88546-1"
+    mem_limit: "2G"
+    environment:
+      ROLE: "NODE"
+      PORT0: 3306
+      CLUSTER_NAME: "conductor-cluster"
+      CLUSTER: "work-mariadb.service.imanagecloud.com:4567"
+      PORT1: "4567"
+      DEBUG: "1"
+      SERVICE_3306_TAGS: "1"
+      SERVICE_3306_NAME: "work-mariadb"
+    restart: on-failure:12
+
+  mariadb-garbd:
+    extends:
+      file: "common.yml"
+      service: "common"
+    image: "registry.imanage.com/m-mariadb-garbd:preprod"
+    mem_limit: "2G"
+    environment:
+      CLUSTER_NAME: "conductor-cluster"
+      CLUSTER: "work-mariadb.service.imanagecloud.com:4567"
+      SERVICE_3306_NAME: "work-garbd"
+    restart: on-failure:12
+
+  vault-dev:
+    network_mode: public
+    image: "registry.imanage.com/m-vault-dev:latest"
+    restart: on-failure:12
+    cap_add:
+      - IPC_LOCK
+
+  vault-bootstrap:
+    network_mode: public
+    image: "registry.imanage.com/m-vault-dev-bootstrap:latest"
+    restart: on-failure:12

@@ -1,0 +1,12 @@
+version: "2.1"
+services:
+  common-no-tmpfs:
+    volumes:
+      - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
+    network_mode: "public"
+
+  common:
+    extends:
+      service: "common-no-tmpfs"
+    tmpfs:
+      - /var/lib

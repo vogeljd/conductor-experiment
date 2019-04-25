@@ -1,0 +1,20 @@
+version: "2.1"
+services:
+  conductor-server:
+    extends:
+      file: "common.yml"
+      service: "common"
+    image: conductor-server
+    ports:
+      - 8080:8080
+    mem_limit: "512m"
+    restart: on-failure:12
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1k"
+        max-file: "3"
+    environment:
+      CONFIG_PROP: config-maria.properties
+      SERVICE_8080_NAME: "conductor-server"
+
