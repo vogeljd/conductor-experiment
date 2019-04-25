@@ -8,6 +8,6 @@ FROM openjdk:8-jdk AS builder
 MAINTAINER Netflix OSS <conductor@netflix.com>
 
 # Copy the project directly onto the image
-COPY . /conductor
+COPY ./conductor /conductor
 WORKDIR /conductor
 
