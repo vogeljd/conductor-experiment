@@ -5,6 +5,13 @@ WORKDIR /conductor
 # Build the server image
 FROM node:9-alpine
 
+ARG ATLAS_IMAGE_VERSION
+LABEL ATLAS_IMAGE_VERSION=${ATLAS_IMAGE_VERSION}
+
+LABEL SERVICE_5000_CHECK_TCP=true
+LABEL SERVICE_5000_CHECK_INTERVAL=30s
+LABEL SERVICE_5000_CHECK_TIMEOUT=3s
+
 RUN apk update && apk add \
   autoconf \
   automake \
