@@ -32,4 +32,15 @@ services:
     environment:
       SERVICE_5000_NAME: "conductor-ui"
 
+  conductor-worker:
+    extends:
+      service: "common"
+      file: "common.yml"
+    image: cloud-workflow-client
+    mem_limit: "1024m"
+    restart: on-failure:12
+    depends_on:
+      - conductor-server
+
+
 
