@@ -46,18 +46,32 @@ public class ClientMain
         metadataClient.setRootURI(rootURI);
 
 
-        TaskDef helloWorldTask = new TaskDef("hello_world", "poc task", 5, 31);
-        helloWorldTask.setResponseTimeoutSeconds(30);
+        TaskDef helloWorldTask = new TaskDef("hello_world", "poc task", 5, 300);
+        helloWorldTask.setRetryLogic(TaskDef.RetryLogic.FIXED);
+        helloWorldTask.setRetryDelaySeconds(10);
+        helloWorldTask.setResponseTimeoutSeconds(180);
+        helloWorldTask.setTimeoutPolicy(TaskDef.TimeoutPolicy.TIME_OUT_WF);
         List<TaskDef> tasks = new LinkedList<>();
         tasks.add(helloWorldTask);
         metadataClient.registerTaskDefs(tasks);
 
-        WorkflowTask helloWorldFlow = new WorkflowTask();
+        WorkflowTask helloWorldFlowTask = new WorkflowTask();
+        helloWorldFlowTask.setName("hello_world");
+        helloWorldFlowTask.setTaskReferenceName("parameterized_hello_world");
+        Map<String, Object> inputParams = new HashMap<>();
+        inputParams.put("who", "${workflow.input.who}");
+        helloWorldFlowTask.setInputParameters(inputParams);
+        helloWorldFlowTask.setType("SIMPLE");
+
         List<WorkflowTask> workflowTasks = new LinkedList<>();
-        workflowTasks.add(helloWorldFlow);
+        workflowTasks.add(helloWorldFlowTask);
 
         WorkflowDef helloWorldFlowDef = new WorkflowDef();
         helloWorldFlowDef.setName("hello_world_workflow");
+        helloWorldFlowDef.setDescription("Say hello -- with param.");
+        helloWorldFlowDef.setVersion(2);
+        helloWorldFlowDef.setSchemaVersion(2);
+
         List<String> lst = new ArrayList<>();
         lst.add("who");
         helloWorldFlowDef.setInputParameters(lst);
