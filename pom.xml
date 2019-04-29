@@ -13,6 +13,8 @@
         <module>conductor-server-docker</module>
         <module>conductor-ui-docker</module>
         <module>conductor-cleanroom</module>
+        <module>conductor-client</module>
+        <module>conductor-client-docker</module>
     </modules>
 
     <properties>
