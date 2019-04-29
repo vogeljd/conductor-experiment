@@ -20,11 +20,13 @@ public class ClientMain
 
     private void init(){
         TaskClient taskClient = new TaskClient();
-        String rootURI = "http://localhost:8080/api/";
+        String rootURI = "http://conductor-server.service.imanagecloud.com:8080/api/";
         taskClient.setRootURI(rootURI);		//Point this to the server API
-
-        initializeWorkflows(rootURI);
-
+        try {
+            initializeWorkflows(rootURI);
+        } catch(Exception exp) {
+            exp.printStackTrace();
+        }
         int threadCount = 10;			//number of threads used to execute workers.  To avoid starvation, should be same or more than number of workers
 
         Worker worker = new SimpleWorker("hello_world");
@@ -44,7 +46,8 @@ public class ClientMain
         metadataClient.setRootURI(rootURI);
 
 
-        TaskDef helloWorldTask = new TaskDef("hello_world", "poc task", 5, 30);
+        TaskDef helloWorldTask = new TaskDef("hello_world", "poc task", 5, 31);
+        helloWorldTask.setResponseTimeoutSeconds(30);
         List<TaskDef> tasks = new LinkedList<>();
         tasks.add(helloWorldTask);
         metadataClient.registerTaskDefs(tasks);
@@ -54,6 +57,10 @@ public class ClientMain
         workflowTasks.add(helloWorldFlow);
 
         WorkflowDef helloWorldFlowDef = new WorkflowDef();
+        helloWorldFlowDef.setName("hello_world_workflow");
+        List<String> lst = new ArrayList<>();
+        lst.add("who");
+        helloWorldFlowDef.setInputParameters(lst);
         helloWorldFlowDef.setTasks(workflowTasks);
         metadataClient.registerWorkflowDef(helloWorldFlowDef);
     }

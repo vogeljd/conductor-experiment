@@ -7,14 +7,29 @@ services:
     image: conductor-server
     ports:
       - 8080:8080
-    mem_limit: "1024m"
+    mem_limit: "4096m"
     restart: on-failure:12
     logging:
       driver: "json-file"
       options:
-        max-size: "1k"
+        max-size: "10m"
         max-file: "3"
     environment:
       CONFIG_PROP: config-maria.properties
       SERVICE_8080_NAME: "conductor-server"
+
+  conductor-ui:
+    extends:
+      service: "common"
+      file: "common.yml"
+    image: conductor-ui
+    expose:
+      - 5000
+    mem_limit: "512m"
+    restart: on-failure:12
+    depends_on:
+      - conductor-server
+    environment:
+      SERVICE_5000_NAME: "conductor-ui"
+
 
