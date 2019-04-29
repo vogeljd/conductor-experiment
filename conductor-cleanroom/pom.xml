@@ -46,19 +46,19 @@
                             <commandlineArgs>-f docker-compose-infrastructure.yml up -d</commandlineArgs>
                         </configuration>
                     </execution>
-                    <execution>
-                        <id>Prep Clean Room DB</id>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <skip>${skipITs}</skip>
-                            <executable>docker-compose</executable>
-                            <workingDirectory>src/test/cr</workingDirectory>
-                            <commandlineArgs>-f docker-compose-db.yml up -d</commandlineArgs>
-                        </configuration>
-                    </execution>
+<!--                    <execution>-->
+<!--                        <id>Prep Clean Room DB</id>-->
+<!--                        <phase>pre-integration-test</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>exec</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            <skip>${skipITs}</skip>-->
+<!--                            <executable>docker-compose</executable>-->
+<!--                            <workingDirectory>src/test/cr</workingDirectory>-->
+<!--                            <commandlineArgs>-f docker-compose-db.yml up -d</commandlineArgs>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
                     <execution>
                         <id>Prep Clean Room start conductor server</id>
                         <phase>pre-integration-test</phase>
@@ -69,7 +69,7 @@
                             <skip>${skipITs}</skip>
                             <executable>docker-compose</executable>
                             <workingDirectory>${project.basedir}/src/test/cr</workingDirectory>
-                            <commandlineArgs>-f ${docker-compose-services} up</commandlineArgs>
+                            <commandlineArgs>-f ${docker-compose-services} up -d</commandlineArgs>
                         </configuration>
                     </execution>
                 </executions>
