@@ -12,7 +12,6 @@
         <module>conductor-base-docker</module>
         <module>conductor-server-docker</module>
         <module>conductor-ui-docker</module>
-        <module>conductor-liquibase-docker</module>
         <module>conductor-cleanroom</module>
     </modules>
 

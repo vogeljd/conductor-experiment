@@ -7,7 +7,7 @@ services:
     image: conductor-server
     ports:
       - 8080:8080
-    mem_limit: "512m"
+    mem_limit: "1024m"
     restart: on-failure:12
     logging:
       driver: "json-file"
