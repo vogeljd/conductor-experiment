@@ -1,6 +1,7 @@
 package com.imanage.workflow.client;
 
 
+import com.netflix.conductor.client.exceptions.*;
 import com.netflix.conductor.client.http.*;
 import com.netflix.conductor.client.task.WorkflowTaskCoordinator;
 import com.netflix.conductor.client.worker.Worker;
@@ -12,7 +13,7 @@ import java.util.*;
 public class ClientMain
 {
     public static void main(String[] args){
-        System.out.println("...and it has begun");
+        System.out.println("Starting.");
         ClientMain main = new ClientMain();
         main.init();
     }
@@ -21,12 +22,11 @@ public class ClientMain
     private void init(){
         TaskClient taskClient = new TaskClient();
         String rootURI = "http://conductor-server.service.imanagecloud.com:8080/api/";
-        taskClient.setRootURI(rootURI);		//Point this to the server API
-        try {
-            initializeWorkflows(rootURI);
-        } catch(Exception exp) {
-            exp.printStackTrace();
-        }
+
+        taskClient.setRootURI(rootURI);  
+
+        initializeWorkflows(rootURI);
+
         int threadCount = 10;			//number of threads used to execute workers.  To avoid starvation, should be same or more than number of workers
 
         Worker worker = new SimpleWorker("hello_world");
@@ -40,11 +40,58 @@ public class ClientMain
     }
 
 
+
+    private void waitForServer(MetadataClient client){
+        try{
+            client.getTaskDef("access_test");
+        }
+        catch(ConductorClientException cce){
+            if(cce.getStatus() == 404 || cce.getStatus() == 500){  //Status is 0 when service is not reachable.
+                return;
+            }else{
+                logAndWait(cce);
+                waitForServer(client);
+            }
+
+        }
+        catch(Exception e){
+            logAndWait(e);
+            waitForServer(client);
+        }
+
+    }
+
+    private void logAndWait(Exception ex){
+        System.out.println("Unable to connect to server.  Will retry.");
+        ex.printStackTrace();
+        try{
+            Thread.sleep(5000);
+        }catch(InterruptedException ie){}
+
+    }
+
+
+    private WorkflowDef getWorkflow(MetadataClient metadataClient, String name, int version){
+        try{
+            return metadataClient.getWorkflowDef(name, version);
+        }catch(ConductorClientException cce){
+           return null;
+        }
+    }
+
+
     private void initializeWorkflows(String rootURI){
 
         MetadataClient metadataClient = new MetadataClient();
         metadataClient.setRootURI(rootURI);
 
+        waitForServer(metadataClient);
+
+
+        WorkflowDef retrievedWorkflow = getWorkflow(metadataClient,"hello_world", 2);
+        if(retrievedWorkflow != null){
+            return;
+        }
 
         TaskDef helloWorldTask = new TaskDef("hello_world", "poc task", 5, 300);
         helloWorldTask.setRetryLogic(TaskDef.RetryLogic.FIXED);
@@ -77,6 +124,6 @@ public class ClientMain
         helloWorldFlowDef.setInputParameters(lst);
         helloWorldFlowDef.setTasks(workflowTasks);
         metadataClient.registerWorkflowDef(helloWorldFlowDef);
-    }
+      }
 
 }
