@@ -23,7 +23,7 @@ public class ClientMain
         TaskClient taskClient = new TaskClient();
         String rootURI = "http://conductor-server.service.imanagecloud.com:8080/api/";
 
-        taskClient.setRootURI(rootURI);  
+        taskClient.setRootURI(rootURI);
 
         initializeWorkflows(rootURI);
 
