@@ -41,6 +41,8 @@ services:
     restart: on-failure:12
     depends_on:
       - conductor-server
+    environment:
+      SERVICE_5000_NAME: "conductor-client"
 
 
 
