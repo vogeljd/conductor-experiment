@@ -65,7 +65,7 @@ public class ClientMain
         System.out.println("Unable to connect to server.  Will retry.");
         ex.printStackTrace();
         try{
-            Thread.sleep(5000);
+            Thread.sleep(25000);
         }catch(InterruptedException ie){}
 
     }
