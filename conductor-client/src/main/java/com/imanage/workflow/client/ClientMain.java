@@ -88,7 +88,7 @@ public class ClientMain
         waitForServer(metadataClient);
 
 
-        WorkflowDef retrievedWorkflow = getWorkflow(metadataClient,"hello_world", 2);
+        WorkflowDef retrievedWorkflow = getWorkflow(metadataClient,"hello_world_workflow", 2);
         if(retrievedWorkflow != null){
             return;
         }
