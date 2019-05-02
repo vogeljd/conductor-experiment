@@ -33,8 +33,16 @@ public class SimpleWorker implements Worker
         result.getOutputData().put("outputKey1", "value");
         result.getOutputData().put("oddEven", 1);
         result.getOutputData().put("mod", 4);
-
+        waitForSecs(30_000);
         return result;
+    }
+
+    public void waitForSecs(long milSecs) {
+        try {
+            Thread.sleep(milSecs);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 
 }

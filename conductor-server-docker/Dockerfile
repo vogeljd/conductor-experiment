@@ -20,7 +20,7 @@ LABEL ATLAS_IMAGE_VERSION=${ATLAS_IMAGE_VERSION}
 RUN mkdir -p /app/config /app/logs /app/libs
 
 # Copy the project directly onto the image
-COPY --from=conductor-base-image /conductor/docker/server/bin /app
+COPY src/bin /app
 COPY src/config /app/config
 COPY --from=conductor-base-image /conductor/server/build/libs/conductor-server-*-all.jar /app/libs
 

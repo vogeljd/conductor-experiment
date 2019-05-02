@@ -16,6 +16,7 @@ services:
         max-file: "3"
     environment:
       CONFIG_PROP: config-maria.properties
+      LOG4J_CONFIG: log4j-dm.properties
       SERVICE_8080_NAME: "conductor-server"
 
   conductor-ui:
