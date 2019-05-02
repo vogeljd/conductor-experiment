@@ -6,8 +6,8 @@ services:
       service: "common"
     image: conductor-server
     ports:
-      - 8080:8080
-    mem_limit: "4096m"
+      - 8080
+    mem_limit: "3000m"
     restart: on-failure:12
     logging:
       driver: "json-file"
@@ -16,6 +16,7 @@ services:
         max-file: "3"
     environment:
       CONFIG_PROP: config-maria.properties
+      LOG4J_CONFIG: log4j-dm.properties
       SERVICE_8080_NAME: "conductor-server"
 
   conductor-ui:
