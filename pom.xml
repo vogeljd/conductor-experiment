@@ -24,11 +24,18 @@
         <!-- If you don't include this, there will be many warning messages about platform encodings -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
         <dockerDeployRegistryHost/>
         <dockerDeployTag>latest</dockerDeployTag>
         <dockerImageName/>
     </properties>
+
+
+    <distributionManagement>
+        <repository>
+            <id>internal</id>
+            <url>http://archiva.imanage.com/repository/internal</url>
+        </repository>
+    </distributionManagement>
 
     <dependencyManagement>
         <dependencies>

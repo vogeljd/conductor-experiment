@@ -10,6 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>conductor-client-docker</artifactId>
+    <packaging>pom</packaging>
 
     <properties>
 
@@ -18,8 +19,9 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
-        <dockerDeployRegistryHost/>
-        <dockerDeployTag>latest</dockerDeployTag>
+        <dockerDeployRegistryHost>registry.imanage.com/jim/imanagelabs/</dockerDeployRegistryHost>
+        <maven.deploy.skip>true</maven.deploy.skip>
+        <dockerDeployTag>0.0.0.1</dockerDeployTag>
         <dockerImageName>cloud-workflow-client</dockerImageName>
 
         <deployAtEnd>true</deployAtEnd>
@@ -86,7 +88,6 @@
             <plugin>
                 <groupId>com.spotify</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
-                <version>1.1.1</version>
                 <executions>
                     <execution>
                         <id>build-image</id>
@@ -119,6 +120,16 @@
                         <configuration>
                             <image>${dockerImageName}</image>
                             <newName>${dockerDeployRegistryHost}${dockerImageName}:latest</newName>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>push-image</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>push</goal>
+                        </goals>
+                        <configuration>
+                            <imageName>${dockerDeployRegistryHost}${dockerImageName}:${dockerDeployTag}</imageName>
                         </configuration>
                     </execution>
                 </executions>

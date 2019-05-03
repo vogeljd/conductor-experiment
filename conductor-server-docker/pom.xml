@@ -13,7 +13,11 @@
 
     <properties>
         <dockerImageName>conductor-server</dockerImageName>
+        <maven.deploy.skip>true</maven.deploy.skip>
+        <maven.install.skip>true</maven.install.skip>
+        <dockerDeployRegistryHost>registry.imanage.com/jim/imanagelabs/</dockerDeployRegistryHost>
     </properties>
+
 
     <build>
         <plugins>
@@ -26,9 +30,10 @@
                         <id>build</id>
                         <goals>
                             <goal>build</goal>
+                            <goal>push</goal>
                         </goals>
                         <configuration>
-                            <repository>${dockerImageName}</repository>
+                            <repository>${dockerDeployRegistryHost}${dockerImageName}</repository>
                             <!-- Make sure to include a label showing the build version -->
                             <buildArgs>
                                 <ATLAS_IMAGE_VERSION>${dockerDeployTag}</ATLAS_IMAGE_VERSION>
