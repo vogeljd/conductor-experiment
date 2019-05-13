@@ -15,6 +15,9 @@ FROM registry.imanage.com/m-java8:1.0.16
 MAINTAINER Saurabh Saxena <saurabh.saxena@imanage.com>
 ARG ATLAS_IMAGE_VERSION
 LABEL ATLAS_IMAGE_VERSION=${ATLAS_IMAGE_VERSION}
+ENV JDBC_URL=null
+ENV JDBC_USERNAME=null
+ENV JDBC_PASSWORD=null
 
 # Make app folders
 RUN mkdir -p /app/config /app/logs /app/libs

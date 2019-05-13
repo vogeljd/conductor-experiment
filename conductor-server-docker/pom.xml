@@ -15,7 +15,6 @@
         <dockerImageName>conductor-server</dockerImageName>
         <maven.deploy.skip>true</maven.deploy.skip>
         <maven.install.skip>true</maven.install.skip>
-        <dockerDeployRegistryHost>registry.imanage.com/jim/imanagelabs/</dockerDeployRegistryHost>
     </properties>
 
 

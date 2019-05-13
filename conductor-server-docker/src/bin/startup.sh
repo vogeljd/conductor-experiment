@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -x
 # startup.sh - startup script for the server docker image
 
 echo "Starting Conductor server"
@@ -16,6 +16,9 @@ if [ -z "$CONFIG_PROP" ];
   else
     echo "Using '$CONFIG_PROP'";
     export config_file=/app/config/$CONFIG_PROP
+    echo 'jdbc.url='${JDBC_URL} >> $config_file
+    echo 'jdbc.username='${JDBC_USERNAME} >> $config_file
+    echo 'jdbc.password='${JDBC_PASSWORD} >> $config_file
 fi
 
 if [ -z "LOG4J_CONFIG" ];

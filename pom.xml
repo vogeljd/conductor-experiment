@@ -27,6 +27,7 @@
         <dockerDeployRegistryHost/>
         <dockerDeployTag>latest</dockerDeployTag>
         <dockerImageName/>
+        <dockerDeployRegistryHost>registry.imanage.com/jim/imanagelabs/</dockerDeployRegistryHost>
     </properties>
 
 

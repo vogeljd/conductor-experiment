@@ -18,6 +18,9 @@ services:
       CONFIG_PROP: config-maria.properties
       LOG4J_CONFIG: log4j-dm.properties
       SERVICE_8080_NAME: "conductor-server"
+      JDBC_URL: "jdbc:mysql://work-mariadb.service.imanagecloud.com:3306/conductor?createDatabaseIfNotExist=true&rewriteBatchStatements=true&useUnicode=true&pinGlobalTxToPhysicalConnection=true"
+      JDBC_USERNAME: root
+      JDBC_PASSWORD: mhdocs
 
   conductor-ui:
     extends:

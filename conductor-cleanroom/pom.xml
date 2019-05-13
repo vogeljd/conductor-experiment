@@ -24,6 +24,12 @@
             <version>1.0-SNAPSHOT</version>
             <type>pom</type>
         </dependency>
+        <dependency>
+            <groupId>com.imanage.atlas</groupId>
+            <artifactId>conductor-server-docker</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <type>pom</type>
+        </dependency>
     </dependencies>
 
 
@@ -79,7 +85,7 @@
                             <skip>${skipITs}</skip>
                             <executable>docker-compose</executable>
                             <workingDirectory>${project.basedir}/src/test/cr</workingDirectory>
-                            <commandlineArgs>-f ${docker-compose-services} up --scale conductor-server=2 --scale conductor-worker=3 -d   </commandlineArgs>
+                            <commandlineArgs>-f ${docker-compose-services} up --scale conductor-server=1 --scale conductor-worker=3 -d   </commandlineArgs>
                         </configuration>
                     </execution>
 <!--                    <execution>-->
